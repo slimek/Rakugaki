@@ -1,21 +1,15 @@
 ﻿using Meringue.Mvp;
+using UniRx;
 
 public class TitleView : View
-                       , VersionPresenter.IVersionView
 {
     public UILabel versionLabel;
 
-    private VersionPresenter _version;
+    private IVersionPresenter _version;
 
     protected override void OnAwake()
     {
-        _version = new VersionPresenter(this);
-        // _version = Bind<VersionPresenter>(this);
-        // _version.text.Subscribe(SetVersion);
-        // _version.text.Subscribe(x => versionLabel.text = x);
-    }
-
-    public void SetVersion(string version)
-    {
+        _version = VersionPresenter.Create();
+        _version.text.Subscribe(x => versionLabel.text = x);
     }
 }

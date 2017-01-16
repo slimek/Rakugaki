@@ -1,16 +1,33 @@
 ﻿using Meringue.Mvp;
+using UniRx;
 
-public class VersionPresenter
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+public interface IVersionPresenter
 {
-    public interface IVersionView
+    ReactiveProperty<string> text { get; }
+}
+
+public partial class VersionPresenter : Presenter
+                                      , IVersionPresenter
+{
+    public ReactiveProperty<string> text { get; private set; }
+
+    public static IVersionPresenter Create()
     {
-        void SetVersion(string version);
+        return Presenter.Create<IVersionPresenter>();
     }
 
-    IVersionView _view;
-
-    public VersionPresenter(IVersionView view)
+    public VersionPresenter()
     {
-        _view = view;
+        #if UNITY_EDITOR
+        var version = PlayerSettings.bundleVersion;
+        #else
+        string version = "0.0.0";
+        #endif
+
+        text = new ReactiveProperty<string>(version);
     }
 }
