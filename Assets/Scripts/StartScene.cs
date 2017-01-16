@@ -8,7 +8,7 @@ public class StartScene : Scene
 
 	private void Start()
     {
-        this.LoadView("Title")
-            .Subscribe(view => _titleView = view);
+        var titleLoader = this.LoadView("Title");
+        titleLoader.Subscribe(view => _titleView = view);
 	}
 }
