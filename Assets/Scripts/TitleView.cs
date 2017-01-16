@@ -5,11 +5,14 @@ public class TitleView : View
 {
     public UILabel versionLabel;
 
-    private VersionPresenter _versionPresenter;
+    private VersionPresenter _version;
 
     protected override void OnAwake()
     {
-        _versionPresenter = new VersionPresenter(this);
+        _version = new VersionPresenter(this);
+        // _version = Bind<VersionPresenter>(this);
+        // _version.text.Subscribe(SetVersion);
+        // _version.text.Subscribe(x => versionLabel.text = x);
     }
 
     public void SetVersion(string version)
